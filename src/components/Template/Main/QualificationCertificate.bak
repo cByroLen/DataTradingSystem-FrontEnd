@@ -1,0 +1,204 @@
+<template>
+    <el-header class="main-header-container">
+        <tradingSystemMainGuide class="sub-header" />
+        <el-divider margin-top="0px">
+        </el-divider>
+    </el-header>
+    <el-main class="main-main-container">
+        <el-scrollbar height="869px">
+            <div class="QCfrom-container">
+                <el-form :model="QCform" label-width="400px" class="form">
+                    <!-- 工商信息板块 -->
+                    <el-form-item>
+                        <div class="tag">工商信息</div>
+                    </el-form-item>
+                    <el-form-item label="统一社会信用代码">
+                        <el-input v-model="QCform.UniformSocialCreditCode" size="large" placeholder="18位统一社会信用代码" />
+                    </el-form-item>
+                    <el-form-item label="名称">
+                        <el-input v-model="QCform.CompanyName" size="large" placeholder="请输入市场主体名称" />
+                    </el-form-item>
+                    <el-form-item label="企业类型">
+                        <el-input v-model="QCform.CompanyType" size="large" placeholder="请输入企业类型" />
+                    </el-form-item>
+                    <el-form-item label="经营范围">
+                        <el-input :model="QCform.BussinessRange" :autosize="{ minRows: 3, maxRows: 5 }" type="textarea"
+                            placeholder="请输入企业经营范围" />
+                    </el-form-item>
+                    <el-form-item label="营业执照">
+                        <el-select v-model="QCform.License.type" placeholder="证件类型" style="width: 115px" size="large">
+                            <el-option label="一般企业" value="1" />
+                            <el-option label="个体工商户" value="2" />
+                            <el-option label="事业单位" value="3" />
+                            <el-option label="政府&组织" value="4" />
+                        </el-select>
+                        <el-button type="primary" color="#545c64" size="large" plain>
+                            文件上传<el-icon class="el-icon--right">
+                                <Upload />
+                            </el-icon>
+                        </el-button>
+                    </el-form-item>
+
+                    <!-- 经营者信息模块 -->
+                    <el-form-item>
+                        <div class="tag">经营者信息</div>
+                    </el-form-item>
+                    <el-form-item label="经营者姓名">
+                        <el-input v-model="QCform.JuridicalPersonName" size="large" placeholder="请输入经营者姓名" />
+                    </el-form-item>
+                    <el-form-item label="手机号码">
+                        <el-input v-model="QCform.JuridicalPersonPhone" size="large" placeholder="请输入经营者手机号码" />
+                    </el-form-item>
+                    <el-form-item label="经营者证件">
+                        <el-input v-model="QCform.JuridicalPersonCertificate.detail" placeholder="请输入经营者证件号"
+                            class="input-with-select" size="large">
+                            <template #prepend>
+                                <el-select v-model="QCform.JuridicalPersonCertificate.type" placeholder="证件类型"
+                                    style="width: 115px" size="large">
+                                    <el-option label="身份证" value="1" />
+                                    <el-option label="护照" value="2" />
+                                    <el-option label="港澳通行证" value="3" />
+                                    <el-option label="台胞证" value="4" />
+                                    <el-option label="其他" value="5" />
+                                </el-select>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+
+                    <!-- 开户银行信息 -->
+                    <el-form-item>
+                        <div class="tag">开户银行信息</div>
+                    </el-form-item>
+                    <el-form-item label="账户信息">
+                        <el-button type="primary" color="#545c64" size="large" plain>
+                            文件上传<el-icon class="el-icon--right">
+                                <Upload />
+                            </el-icon>
+                        </el-button>
+                    </el-form-item>
+                    <el-form-item label="开户银行">
+                        <el-input v-model="QCform.BankOfDeposit" size="large" placeholder="请输入开户银行" />
+                    </el-form-item>
+                    <el-form-item label="开户银行机构">
+                        <el-input v-model="QCform.BankInstitution" size="large" placeholder="请输入开户银行机构" />
+                    </el-form-item>
+                    <el-form-item label="开户名称">
+                        <el-input v-model="QCform.BankAccountName" size="large" placeholder="请输入开户名称" />
+                    </el-form-item>
+                    <el-form-item label="开户账户">
+                        <el-input v-model="QCform.BankAccount" size="large" placeholder="请输入开户账户" />
+                    </el-form-item>
+
+                    <!-- 联系信息 -->
+                    <el-form-item>
+                        <div class="tag">联系人信息</div>
+                    </el-form-item>
+                    <el-form-item label="联系人姓名">
+                        <el-input v-model="QCform.BankAccount" size="large" placeholder="请输入联系人姓名" />
+                    </el-form-item>
+                    <el-form-item label="地理区域">
+                        <el-cascader size="large" :options="GeographicAreaOption" v-model="QCform.GeographicArea"
+                            :props="props" @change="GeographicAreaChange" placeholder="请选择地理区域">
+                        </el-cascader>
+                    </el-form-item>
+                    <el-form-item label="通讯地址">
+                        <el-input v-model="QCform.BankAccount" size="large" placeholder="请输入通讯地址" />
+                    </el-form-item>
+                    <el-form-item label="邮政编码">
+                        <el-input v-model="QCform.BankAccount" size="large" placeholder="请输入邮政编码" />
+                    </el-form-item>
+                    <el-form-item label="电子邮箱">
+                        <el-input placeholder="请输入联系人电子邮箱" size="large">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="企业网址">
+                        <el-input v-model="QCform.CompanyWebsite" placeholder="请输入企业网址（默认HTTPS）" size="large">
+                            <template #prepend>Https://</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="手机号码">
+                        <el-input v-model="QCform.BankAccount" size="large" placeholder="请输入联系人手机号码" />
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">Create</el-button>
+                        <el-button>Cancel</el-button>
+                    </el-form-item>
+                </el-form>
+
+            </div>
+
+        </el-scrollbar>
+    </el-main>
+</template>
+
+<script lang="ts" setup>
+import { reactive } from 'vue'
+import { Upload } from '@element-plus/icons-vue'
+import { regionData } from 'element-china-area-data'
+
+
+const QCform = reactive({
+    UniformSocialCreditCode: '',//统一社会信用代码
+    CompanyName: "",//企业名称
+    CompanyType: "",//企业类型
+    BussinessRange: "",//企业业务范围
+    License: {//营业执照
+        type: "",//执照类型
+        detail: "",
+    },
+    JuridicalPersonName: "",//法人姓名
+    JuridicalPersonPhone: "",//法人电话
+    JuridicalPersonCertificate: {//法人证件
+        type: "",//证件类型
+        detail: "",//证件
+    },
+    BankAccountInfo: "",//开户信息
+    BankOfDeposit: "",//开户银行
+    BankInstitution: "",//开户银行机构
+    BankAccount: "",//开户账户
+    BankAccountName: "",//开户名称
+    GeographicArea: {
+        Province: "",
+        City: "",
+        District: "",
+    },
+    CompanyWebsite: "",//企业网址
+    ContactsPhone: "",//联系人电话
+
+})
+
+const GeographicAreaOption = regionData
+
+const GeographicAreaChange = () => {
+    console.log()
+}
+
+const props = {
+    expandTrigger: 'hover' as const,
+}
+
+
+const onSubmit = () => {
+    console.log('submit!')
+}
+</script>
+
+<style>
+.main-main-container {
+    padding: 0px;
+    height: 100%;
+}
+
+.sub-header {
+    margin: 10px 0px 0px 30px;
+}
+.QCform-container {
+    position: relative;
+    overflow: hidden;
+}
+.form {
+    position: relative;
+    width: 800px;
+    overflow-y: hidden;
+}
+</style>

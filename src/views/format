@@ -1,0 +1,9 @@
+@bp.route('/qc',methods = ['POST'])
+def qc():
+    if request.method == 'POST':
+        qc = UserQCModel()
+        qc.c_unified_social_credit_code = request.form.get('c_unified_social_credit_code')
+        ......
+        db.session.add(qc)
+        db.session.commit()
+        return res_format(200,[],'success')

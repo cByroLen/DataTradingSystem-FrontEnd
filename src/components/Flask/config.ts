@@ -1,0 +1,1 @@
+const FlaskGobalPath = 'E:/Programming/python_projec/DataTradingSystem_Flask/'
